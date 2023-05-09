@@ -1,3 +1,3 @@
 ﻿<Project>
-  <Import Project="..\build\Router-Api.props" />
+  <Import Project="../build/Router-Api.props" />
 </Project>

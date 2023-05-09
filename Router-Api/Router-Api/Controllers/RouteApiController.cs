@@ -17,7 +17,7 @@ namespace Router_Api.Controllers
         }
 
 
-        [HttpPut]
+        [HttpPost("/raw")]
         public async Task SubmitRaw(RawInputDTO dto)
         {
             try
@@ -31,7 +31,7 @@ namespace Router_Api.Controllers
             }
         }
 
-        [HttpGet]
+        [HttpGet("/get")]
         public async Task<List<Coordinates>> GetCords()
         {
             try
@@ -45,7 +45,7 @@ namespace Router_Api.Controllers
             }
         }
 
-        [HttpPost]
+        [HttpPost("/status")]
         public async Task<bool> GetStatus(GetStatusDTO dto)
         {
             return await _routerApiService.GetStatus(dto);
