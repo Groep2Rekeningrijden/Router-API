@@ -63,7 +63,7 @@ namespace Router_Api.Services
 
         }
 
-        public async Task<List<LatLongDto>> getCordsByVehicle(string id, DateTime start, DateTime end)
+        public async Task<List<LatLongDto>> GetCordsByVehicle(string id, DateTime? start, DateTime? end)
         {
             List<Coordinates> cords = await _dataContext.Coordinates.Where(x => x.VehicleId == id).ToListAsync();
             cords = cords.OrderByDescending(x => x.Time).ToList();
@@ -80,9 +80,10 @@ namespace Router_Api.Services
             return latlong;
         }
 
-        public async Task<List<string>> getAllVehicleIDs()
+        public async Task<List<string>> GetAllVehicleIDs()
         {
             return _dataContext.Coordinates.Select(x => x.VehicleId).Distinct().ToList();
         }
+
     }
 }

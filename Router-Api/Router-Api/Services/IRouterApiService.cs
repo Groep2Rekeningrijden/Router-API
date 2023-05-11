@@ -11,9 +11,9 @@ namespace Router_Api.Services
 
         public Task<bool> GetStatus(GetStatusDTO dto);
 
-        public Task<List<LatLongDto>> getCordsByVehicle(string id, DateTime start, DateTime end);
+        public Task<List<LatLongDto>> GetCordsByVehicle(string id, DateTime? start, DateTime? end);
 
-        public Task<List<string>> getAllVehicleIDs();
+        public Task<List<string>> GetAllVehicleIDs();
 
     }
 }

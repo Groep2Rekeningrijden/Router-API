@@ -52,11 +52,11 @@ namespace Router_Api.Controllers
         }
 
         [HttpGet("/getById")]
-        public async Task<List<LatLongDto>> GetCordsById(string id)
+        public async Task<List<LatLongDto>> GetCordsById(string id, DateTime? start, DateTime? end)
         {
             try
             {
-                return await _routerApiService.getCordsByVehicle(id);
+                return await _routerApiService.GetCordsByVehicle(id, start, end);
             }
             catch (Exception ex)
             {
@@ -70,7 +70,7 @@ namespace Router_Api.Controllers
         {
             try
             {
-                return await _routerApiService.getAllVehicleIDs();
+                return await _routerApiService.GetAllVehicleIDs();
             }
             catch (Exception ex)
             {
