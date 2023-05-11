@@ -11,8 +11,8 @@ namespace Router_Api.Controllers
     {
         private readonly IRouterApiService _routerApiService;
 
-        public RouteApiController(IRouterApiService routerApiService) 
-        { 
+        public RouteApiController(IRouterApiService routerApiService)
+        {
             _routerApiService = routerApiService;
         }
 
@@ -51,6 +51,38 @@ namespace Router_Api.Controllers
             return await _routerApiService.GetStatus(dto);
         }
 
-      
+        [HttpGet("/getById")]
+        public async Task<List<LatLongDto>> GetCordsById(string id)
+        {
+            try
+            {
+                return await _routerApiService.getCordsByVehicle(id);
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+        }
+
+        [HttpGet("/getAllVehicleID's")]
+        public async Task<List<string>> GetAllVehicleIDs()
+        {
+            try
+            {
+                return await _routerApiService.getAllVehicleIDs();
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+
+
+
+
+        }
+
+
     }
-}
+    }

@@ -56,9 +56,6 @@ namespace Router_Api.Services
 
             //code voor het verzenden van alle coordinaten die bij vehicle ID horen
 
-
-
-
             //verwijderen van alle coordinaten na het verzenden
             _dataContext.RemoveRange(coordinates);
             await _dataContext.SaveChangesAsync();
@@ -66,10 +63,26 @@ namespace Router_Api.Services
 
         }
 
-        
+        public async Task<List<LatLongDto>> getCordsByVehicle(string id, DateTime start, DateTime end)
+        {
+            List<Coordinates> cords = await _dataContext.Coordinates.Where(x => x.VehicleId == id).ToListAsync();
+            cords = cords.OrderByDescending(x => x.Time).ToList();
+            List<LatLongDto> latlong = new List<LatLongDto>();  
 
+            foreach (Coordinates cord in cords)
+            {
+                latlong.Add(new LatLongDto
+                {
+                    Lat = cord.Lat,
+                    Long = cord.Long
+                });
+            }
+            return latlong;
+        }
 
-
-
+        public async Task<List<string>> getAllVehicleIDs()
+        {
+            return _dataContext.Coordinates.Select(x => x.VehicleId).Distinct().ToList();
+        }
     }
 }

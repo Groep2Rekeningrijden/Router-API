@@ -10,5 +10,10 @@ namespace Router_Api.Services
         public Task<List<Coordinates>> GetCoordinates();
 
         public Task<bool> GetStatus(GetStatusDTO dto);
+
+        public Task<List<LatLongDto>> getCordsByVehicle(string id, DateTime start, DateTime end);
+
+        public Task<List<string>> getAllVehicleIDs();
+
     }
 }
