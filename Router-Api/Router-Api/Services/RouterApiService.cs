@@ -66,7 +66,7 @@ namespace Router_Api.Services
         public async Task<List<LatLongDto>> GetCordsByVehicle(string id, DateTime? start, DateTime? end)
         {
             List<Coordinates> cords = await _dataContext.Coordinates.Where(x => x.VehicleId == id).ToListAsync();
-            cords = cords.OrderByDescending(x => x.Time).ToList();
+            cords = cords.OrderBy(x => x.Time).ToList();
             List<LatLongDto> latlong = new List<LatLongDto>();  
 
             foreach (Coordinates cord in cords)
