@@ -1,17 +1,22 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using MassTransit;
+using Microsoft.EntityFrameworkCore;
+using RekeningRijden.RabbitMq;
 using Router_Api.Data;
 using Router_Api.DTOs;
 using Router_Api.Models;
+using System.Text.Json;
 
 namespace Router_Api.Services
 {
     public class RouterApiService : IRouterApiService
     {
         private readonly DataContext _dataContext;
+        private readonly IPublishEndpoint publishEndpoint;
 
-        public RouterApiService(DataContext context)
+        public RouterApiService(DataContext context, IPublishEndpoint endpoint)
         {
             _dataContext = context;
+            publishEndpoint = endpoint; 
         }
 
         public Task<List<Coordinates>> GetCoordinates()
@@ -22,23 +27,22 @@ namespace Router_Api.Services
         public async Task Write(RawInputDTO dto)
         {
             List<Coordinates> coordinates = new List<Coordinates>();
-            string vehicleId = dto.VehicleId;
+            //string vehicleId = dto.VehicleId;
 
-            foreach (CoordinatesDTO cord in dto.Coordinates)
-            {
-                coordinates.Add(new Coordinates
-                {
-                    VehicleId = vehicleId,
-                    Lat = cord.Lat,
-                    Long = cord.Lon,
-                    Time = cord.Time
-                });
-            }
+            //foreach (CoordinatesDTO cord in dto.Coordinates)
+            //{
+            //    coordinates.Add(new Coordinates
+            //    {
+            //        VehicleId = vehicleId,
+            //        Lat = cord.Lat,
+            //        Long = cord.Lon,
+            //        Time = cord.Time
+            //    });
+            //}
 
             try
             {
-                await _dataContext.Coordinates.AddRangeAsync(coordinates);
-                await _dataContext.SaveChangesAsync();
+                await publishEndpoint.Publish<RawInputDTO>(dto);
             }
             catch (Exception ex)
             {
@@ -55,6 +59,9 @@ namespace Router_Api.Services
             List<Coordinates> coordinates = await _dataContext.Coordinates.Where(x => x.VehicleId == dto.VehicleId).ToListAsync();
 
             //code voor het verzenden van alle coordinaten die bij vehicle ID horen
+
+            var jsonList = JsonSerializer.Serialize(coordinates);
+            await publishEndpoint.Publish(jsonList);
 
             //verwijderen van alle coordinaten na het verzenden
             _dataContext.RemoveRange(coordinates);

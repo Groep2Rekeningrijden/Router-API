@@ -1,4 +1,5 @@
-﻿using Router_Api.DTOs;
+﻿using RekeningRijden.RabbitMq;
+using Router_Api.DTOs;
 using Router_Api.Models;
 
 namespace Router_Api.Services

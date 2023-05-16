@@ -14,13 +14,10 @@ namespace Router_Api.Data
 
         public DbSet<Coordinates> Coordinates { get; set; }
 
-
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlite(_configuration.GetConnectionString("MigrationConnection"));
         }
-
-
 
         //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         //=> optionsBuilder.UseSqlite("Data Source=.\\Database\\coordinates.db");

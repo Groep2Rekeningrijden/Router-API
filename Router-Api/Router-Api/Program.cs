@@ -1,4 +1,6 @@
+using MassTransit;
 using Router_Api.Data;
+using Router_Api.Models.RabbitMq;
 using Router_Api.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -18,16 +20,32 @@ builder.Services.AddDbContext<DataContext>(options =>
 
 builder.Services.AddScoped<IRouterApiService, RouterApiService>();
 
+var rabbitMqSettings = builder.Configuration.GetSection(nameof(RabbitMqSettings)).Get<RabbitMqSettings>();
+builder.Services.AddMassTransit(mt => mt.AddMassTransit(x => {
+    //x.UsingRabbitMq((cntxt, cfg) => {
+    //    cfg.Host(rabbitMqSettings.Uri, c => {
+    //        c.Username(rabbitMqSettings.UserName);
+    //        c.Password(rabbitMqSettings.Password);
+    //    });
+    //});
 
+    x.UsingRabbitMq((ctx, cfg) => {
+        cfg.Host(rabbitMqSettings.Uri, "/", c => {
+            c.Username(rabbitMqSettings.UserName);
+            c.Password(rabbitMqSettings.Password);
+        });
+
+        cfg.ConfigureEndpoints(ctx);
+    });
+}));
 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
+
     app.UseSwagger();
     app.UseSwaggerUI();
-}
+
 
 app.UseCors(x => x
     .AllowAnyMethod()

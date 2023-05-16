@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using RekeningRijden.RabbitMq;
 using Router_Api.DTOs;
 using Router_Api.Models;
 using Router_Api.Services;
