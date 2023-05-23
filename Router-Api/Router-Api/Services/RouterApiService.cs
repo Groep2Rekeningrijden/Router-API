@@ -50,24 +50,18 @@ namespace Router_Api.Services
             }
         }
 
-        public async Task<bool> GetStatus(GetStatusDTO dto)
+        public async Task<bool> GetStatus(StatusDTO dto)
         {
-            bool statusComplete = Convert.ToBoolean(dto.Status);
+            await publishEndpoint.Publish<StatusDTO>(dto);
 
-            if (!statusComplete) return statusComplete;
+            //var jsonList = JsonSerializer.Serialize(coordinates);
+            //await publishEndpoint.Publish(jsonList);
 
-            List<Coordinates> coordinates = await _dataContext.Coordinates.Where(x => x.VehicleId == dto.VehicleId).ToListAsync();
-
-            //code voor het verzenden van alle coordinaten die bij vehicle ID horen
-
-            var jsonList = JsonSerializer.Serialize(coordinates);
-            await publishEndpoint.Publish(jsonList);
-
-            //verwijderen van alle coordinaten na het verzenden
-            _dataContext.RemoveRange(coordinates);
-            await _dataContext.SaveChangesAsync();
-            return statusComplete;
-
+            ////verwijderen van alle coordinaten na het verzenden
+            //_dataContext.RemoveRange(coordinates);
+            //await _dataContext.SaveChangesAsync();
+            //return statusComplete;
+            return true;
         }
 
         public async Task<List<LatLongDto>> GetCordsByVehicle(string id, DateTime? start, DateTime? end)

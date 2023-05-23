@@ -47,7 +47,7 @@ namespace Router_Api.Controllers
         }
 
         [HttpPost("/status")]
-        public async Task<bool> GetStatus(GetStatusDTO dto)
+        public async Task<bool> GetStatus(StatusDTO dto)
         {
             return await _routerApiService.GetStatus(dto);
         }
