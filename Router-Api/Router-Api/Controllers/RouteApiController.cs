@@ -66,7 +66,7 @@ namespace Router_Api.Controllers
             }
         }
 
-        [HttpGet("/getAllVehicleID's")]
+        [HttpGet("/getAllVehicleIDs")]
         public async Task<List<string>> GetAllVehicleIDs()
         {
             try
