@@ -52,7 +52,7 @@ app.UseCors(x => x
     .AllowAnyHeader()
     .SetIsOriginAllowed(origin => true) // allow any origin
     .AllowCredentials()); // allow credentials
-// app.UseHttpsRedirection();
+app.UseHttpsRedirection();
 
 // app.UseAuthorization();
 
